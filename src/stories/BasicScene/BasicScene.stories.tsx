@@ -20,6 +20,14 @@ const meta = {
 export default meta;
 
 export const Primary: StoryObj = {
+  decorators: [
+    (Story) => (
+      <div className="bg-gray-400 p-10">
+        <Story />
+      </div>
+    ),
+  ],
+
   args: {
     primary: true,
     label: "Button",
