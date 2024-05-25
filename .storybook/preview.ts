@@ -8,6 +8,7 @@ const preview: Preview = {
     previewTabs: {
       docs: { hidden: true },
     },
+    layout: "centered",
     controls: {
       matchers: {
         color: /(background|color)$/i,

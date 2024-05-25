@@ -1,5 +1,6 @@
 .sb-show-main.sb-main-centered #storybook-root {
     width: 100%;
     height: 100%;
-    background: transparent
+    background: transparent;
+    padding: 0;
 }
