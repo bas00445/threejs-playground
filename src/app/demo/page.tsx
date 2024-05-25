@@ -12,6 +12,11 @@ const DemoPage = () => {
     >
       <OrbitControls makeDefault />
       <Environment preset="city" />
+
+      {/* Lights */}
+      <ambientLight intensity={2} />
+
+      {/* Objects */}
       <mesh scale={1.2}>
         <boxGeometry args={[2, 2, 4]} />
         <meshStandardMaterial color="purple" opacity={0.5} />
