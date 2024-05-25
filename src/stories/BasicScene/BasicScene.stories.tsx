@@ -1,3 +1,5 @@
+import { Environment, OrbitControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
 import { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 
@@ -22,9 +24,16 @@ export default meta;
 export const Primary: StoryObj = {
   decorators: [
     (Story) => (
-      <div className="bg-gray-400 p-10">
+      <Canvas
+        camera={{
+          position: [2, 2, 5],
+        }}
+      >
+        <OrbitControls makeDefault />
+        <Environment preset="city" />
+
         <Story />
-      </div>
+      </Canvas>
     ),
   ],
 
@@ -33,6 +42,13 @@ export const Primary: StoryObj = {
     label: "Button",
   },
   render: () => {
-    return <div className="bg-red-500 p-4">Hello</div>;
+    return (
+      <>
+        <mesh>
+          <boxGeometry args={[2, 2, 4]} />
+          <meshStandardMaterial color="purple" opacity={0.5} />
+        </mesh>
+      </>
+    );
   },
 };
