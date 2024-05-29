@@ -48,3 +48,30 @@ export const Primary = {
     );
   },
 };
+
+export const Occluding = {
+  render: () => {
+    const onClickCube = (event) => {
+      event.stopPropagation();
+      console.log("onClickCube");
+    };
+
+    const onClickSphere = (event) => {
+      console.log("onClickSphere");
+    };
+
+    return (
+      <>
+        <mesh onClick={onClickCube}>
+          <boxGeometry args={[2, 2, 4]} />
+          <meshStandardMaterial color="purple" />
+        </mesh>
+
+        <mesh onClick={onClickSphere} position-z={-5}>
+          <sphereGeometry args={[2]} />
+          <meshStandardMaterial color="green" />
+        </mesh>
+      </>
+    );
+  },
+};
