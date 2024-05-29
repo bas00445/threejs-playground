@@ -80,6 +80,7 @@ export const DirectionalLight = {
 export const PointLight = {
   render: () => {
     const lightRef = useRef<any>();
+
     useHelper(lightRef, PointLightHelper, 1);
 
     return (
