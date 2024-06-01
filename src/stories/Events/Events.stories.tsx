@@ -2,6 +2,7 @@ import { Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
+import { motion } from "framer-motion-3d";
 import { useRef } from "react";
 
 const meta = {
@@ -40,10 +41,16 @@ export const Primary = {
 
     return (
       <>
-        <mesh ref={cubeRef} onClick={onClickCube}>
-          <boxGeometry args={[2, 2, 4]} />
+        <motion.mesh
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ stiffness: 120 }}
+          ref={cubeRef}
+          onClick={onClickCube}
+        >
+          <motion.boxGeometry args={[2, 2, 4]} />
           <meshStandardMaterial color="purple" opacity={0.5} />
-        </mesh>
+        </motion.mesh>
       </>
     );
   },
