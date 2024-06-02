@@ -7,6 +7,7 @@ import {
 import { Canvas, useLoader } from "@react-three/fiber";
 import { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
+import { useControls } from "leva";
 import { useEffect } from "react";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
@@ -61,6 +62,28 @@ export const ModelAnimation = {
       const action = animations.actions.Run;
       action?.play();
     }, []);
+
+    return <primitive object={model.scene} scale={0.05} />;
+  },
+};
+
+export const SwitchAnimation = {
+  render: () => {
+    const model = useGLTF("./models/Fox.glb");
+    const animations = useAnimations(model.animations, model.scene);
+
+    const { animationName } = useControls({
+      animationName: { options: animations.names },
+    });
+
+    useEffect(() => {
+      const action = animations.actions[animationName];
+      action?.reset().fadeIn(1).play();
+
+      return () => {
+        action?.fadeOut(0.5);
+      };
+    }, [animationName]);
 
     return <primitive object={model.scene} scale={0.05} />;
   },
