@@ -15,6 +15,7 @@
     "@react-three/fiber": "8.15.8",
     "@react-three/postprocessing": "2.15",
     "framer-motion-3d": "10.16.16",
+    "leva": "^0.9.35",
     "next": "14.1.4",
     "postprocessing": "6.35",
     "r3f-perf": "^7.1.2",

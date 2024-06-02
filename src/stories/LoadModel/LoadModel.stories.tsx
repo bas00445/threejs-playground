@@ -1,7 +1,13 @@
-import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
+import {
+  Environment,
+  OrbitControls,
+  useAnimations,
+  useGLTF,
+} from "@react-three/drei";
 import { Canvas, useLoader } from "@react-three/fiber";
 import { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
+import { useEffect } from "react";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
 const meta = {
@@ -41,6 +47,20 @@ export const UseLoader = {
 export const UseGLTF = {
   render: () => {
     const model = useGLTF("./models/Fox.glb");
+
+    return <primitive object={model.scene} scale={0.05} />;
+  },
+};
+
+export const ModelAnimation = {
+  render: () => {
+    const model = useGLTF("./models/Fox.glb");
+    const animations = useAnimations(model.animations, model.scene);
+
+    useEffect(() => {
+      const action = animations.actions.Run;
+      action?.play();
+    }, []);
 
     return <primitive object={model.scene} scale={0.05} />;
   },
