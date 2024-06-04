@@ -2,6 +2,7 @@ import { Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
+import { DoubleSide } from "three";
 
 const meta = {
   title: "Shadow",
@@ -38,7 +39,7 @@ export const CastAndReceiveShadow = {
 
         <mesh position={[0, -1, 0]} rotation-x={-Math.PI / 2} receiveShadow>
           <planeGeometry args={[10, 10, 2]} />
-          <meshStandardMaterial color="gray" />
+          <meshStandardMaterial color="gray" side={DoubleSide} />
         </mesh>
       </>
     );
