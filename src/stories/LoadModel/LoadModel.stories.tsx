@@ -1,3 +1,5 @@
+/* eslint-disable storybook/context-in-play-function */
+
 import {
   Environment,
   OrbitControls,
