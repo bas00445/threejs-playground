@@ -74,8 +74,20 @@ export const SwitchAnimation = {
     const model = useGLTF("./models/Fox.glb");
     const animations = useAnimations(model.animations, model.scene);
 
-    const { animationName } = useControls({
+    const { animationName, scale, positionY } = useControls({
       animationName: { options: animations.names },
+      scale: {
+        value: 0.05,
+        min: 0.01,
+        max: 0.5,
+        step: 0.01,
+      },
+      positionY: {
+        value: -1,
+        min: -3,
+        max: 3,
+        step: 0.05,
+      },
     });
 
     useEffect(() => {
@@ -87,6 +99,8 @@ export const SwitchAnimation = {
       };
     }, [animationName]);
 
-    return <primitive object={model.scene} scale={0.05} />;
+    return (
+      <primitive object={model.scene} scale={scale} position-y={positionY} />
+    );
   },
 };
