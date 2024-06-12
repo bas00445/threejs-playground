@@ -27,78 +27,70 @@ const meta = {
 
 export default meta;
 
-export const Primary = {
-  render: () => {
-    return (
-      <>
-        <mesh>
-          <boxGeometry args={[2, 2, 4]} />
-          <meshStandardMaterial color="purple" opacity={0.5} />
-        </mesh>
-      </>
-    );
-  },
+export const Primary = () => {
+  return (
+    <>
+      <mesh>
+        <boxGeometry args={[2, 2, 4]} />
+        <meshStandardMaterial color="purple" opacity={0.5} />
+      </mesh>
+    </>
+  );
 };
 
-export const AmbientLight = {
-  render: () => {
-    return (
-      <>
-        <ambientLight intensity={2} />
-        <mesh>
-          <boxGeometry args={[2, 2, 4]} />
-          <meshStandardMaterial color="purple" opacity={0.5} />
-        </mesh>
-      </>
-    );
-  },
+export const AmbientLight = () => {
+  return (
+    <>
+      <ambientLight intensity={2} />
+      <mesh>
+        <boxGeometry args={[2, 2, 4]} />
+        <meshStandardMaterial color="purple" opacity={0.5} />
+      </mesh>
+    </>
+  );
 };
 
-export const DirectionalLight = {
-  render: () => {
-    const lightRef = useRef<any>();
+export const DirectionalLight = () => {
+  const lightRef = useRef<any>();
 
-    useHelper(lightRef, DirectionalLightHelper, 1);
+  useHelper(lightRef, DirectionalLightHelper, 1);
 
-    return (
-      <>
-        <directionalLight
-          ref={lightRef}
-          position={[3, 2, -3]}
-          color={"red"}
-          intensity={3}
-        />
-        <mesh>
-          <boxGeometry args={[2, 2, 4]} />
-          <meshStandardMaterial color="white" opacity={0.5} />
-        </mesh>
-      </>
-    );
-  },
+  return (
+    <>
+      <directionalLight
+        ref={lightRef}
+        position={[3, 2, -3]}
+        color={"red"}
+        intensity={3}
+      />
+      <mesh>
+        <boxGeometry args={[2, 2, 4]} />
+        <meshStandardMaterial color="white" opacity={0.5} />
+      </mesh>
+    </>
+  );
 };
 
-export const PointLight = {
-  render: () => {
-    const lightRef = useRef<any>();
+export const PointLight = () => {
+  const lightRef = useRef<any>();
 
-    useHelper(lightRef, PointLightHelper, 1);
+  useHelper(lightRef, PointLightHelper, 1);
 
-    return (
-      <>
-        <color attach={"background"} args={["black"]} />
+  return (
+    <>
+      <color attach={"background"} args={["black"]} />
 
-        <pointLight
-          ref={lightRef}
-          position={[3, 2, 0]}
-          color={"orange"}
-          intensity={100}
-          distance={10}
-        />
-        <mesh>
-          <boxGeometry args={[2, 2, 4]} />
-          <meshStandardMaterial color="black" />
-        </mesh>
-      </>
-    );
-  },
+      <pointLight
+        ref={lightRef}
+        position={[3, 2, 0]}
+        color={"orange"}
+        intensity={100}
+        distance={10}
+      />
+      <mesh>
+        <boxGeometry args={[2, 2, 4]} />
+        <meshStandardMaterial color="black" />
+      </mesh>
+    </>
+  );
 };

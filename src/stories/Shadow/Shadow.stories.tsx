@@ -27,21 +27,19 @@ const meta = {
 
 export default meta;
 
-export const CastAndReceiveShadow = {
-  render: () => {
-    return (
-      <>
-        <directionalLight intensity={10} position={[3, 2, -1]} castShadow />
-        <mesh castShadow receiveShadow>
-          <sphereGeometry args={[1, 32, 32]} />
-          <meshStandardMaterial color="red" />
-        </mesh>
+export const CastAndReceiveShadow = () => {
+  return (
+    <>
+      <directionalLight intensity={10} position={[3, 2, -1]} castShadow />
+      <mesh castShadow receiveShadow>
+        <sphereGeometry args={[1, 32, 32]} />
+        <meshStandardMaterial color="red" />
+      </mesh>
 
-        <mesh position={[0, -1, 0]} rotation-x={-Math.PI / 2} receiveShadow>
-          <planeGeometry args={[10, 10, 2]} />
-          <meshStandardMaterial color="gray" side={DoubleSide} />
-        </mesh>
-      </>
-    );
-  },
+      <mesh position={[0, -1, 0]} rotation-x={-Math.PI / 2} receiveShadow>
+        <planeGeometry args={[10, 10, 2]} />
+        <meshStandardMaterial color="gray" side={DoubleSide} />
+      </mesh>
+    </>
+  );
 };
