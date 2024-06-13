@@ -23,7 +23,7 @@ export const BasicReact = () => {
         alert(name)
     }
 
-    // UI
+    // UI (HTML code)
     return (
         <div style={{ display: 'flex', flexDirection: 'column', width: 500, background: 'black', padding: 24 }}>
             <input placeholder="name" onChange={onChange} style={{marginBottom: 8}}/>
