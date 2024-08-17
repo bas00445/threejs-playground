@@ -15,7 +15,6 @@ const meta = {
       >
         <OrbitControls makeDefault />
         <Environment preset="city" />
-
         <Story />
       </Canvas>
     ),
@@ -45,6 +44,28 @@ export const InitialSetup = () => {
         <mesh rotation-x={-Math.PI / 2} position-y={-3}>
           <planeGeometry args={[10, 20, 3]} />
           <meshStandardMaterial color="green" side={DoubleSide} />
+        </mesh>
+      </RigidBody>
+    </Physics>
+  );
+};
+
+export const CuboidCollider = () => {
+  return (
+    <Physics debug>
+      {/* Box */}
+      <RigidBody colliders="trimesh">
+        <mesh rotation-x={-Math.PI / 2}>
+          <torusGeometry args={[2, 1, 16]} />
+          <meshStandardMaterial color="rgb(255, 207, 13)" />
+        </mesh>
+      </RigidBody>
+
+      {/* Floor */}
+      <RigidBody>
+        <mesh rotation-x={-Math.PI / 2} position-y={-3}>
+          <planeGeometry args={[100, 100]} />
+          <meshStandardMaterial color="rgb(182, 240, 140)" side={DoubleSide} />
         </mesh>
       </RigidBody>
     </Physics>
