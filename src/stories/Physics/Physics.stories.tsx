@@ -1,4 +1,10 @@
-import { Center, Environment, OrbitControls, Text3D } from "@react-three/drei";
+import {
+  Center,
+  Environment,
+  OrbitControls,
+  Text3D,
+  useHelper,
+} from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
@@ -13,6 +19,7 @@ const meta = {
           position: [2, 2, 8],
         }}
       >
+        <directionalLight intensity={10} position={[3, 2, 1]} castShadow />
         <OrbitControls makeDefault />
         <Environment preset="city" />
         <Story />
@@ -25,8 +32,9 @@ const meta = {
 
 export default meta;
 
-import { Physics, RigidBody } from "@react-three/rapier";
+import { Physics, RigidBody, RapierRigidBody } from "@react-three/rapier";
 import { DoubleSide } from "three";
+import { useRef } from "react";
 
 export const InitialSetup = () => {
   return (
@@ -64,6 +72,37 @@ export const CuboidCollider = () => {
       {/* Floor */}
       <RigidBody>
         <mesh rotation-x={-Math.PI / 2} position-y={-3}>
+          <planeGeometry args={[100, 100]} />
+          <meshStandardMaterial color="rgb(182, 240, 140)" side={DoubleSide} />
+        </mesh>
+      </RigidBody>
+    </Physics>
+  );
+};
+
+export const JumpingCube = () => {
+  const cubeRef = useRef<RapierRigidBody | null>(null);
+
+  const cubeJump = () => {
+    cubeRef.current?.applyImpulse({ x: 0, y: 60, z: 0 }, true);
+    cubeRef.current?.applyTorqueImpulse(
+      { x: Math.random() * 10, y: Math.random() * 10, z: Math.random() * 10 },
+      true
+    );
+  };
+
+  return (
+    <Physics>
+      <RigidBody ref={cubeRef} colliders="cuboid">
+        <mesh onClick={cubeJump} castShadow receiveShadow>
+          <boxGeometry args={[2, 2, 2]} />
+          <meshStandardMaterial color="red" />
+        </mesh>
+      </RigidBody>
+
+      {/* Floor */}
+      <RigidBody>
+        <mesh rotation-x={-Math.PI / 2} position-y={-3} receiveShadow>
           <planeGeometry args={[100, 100]} />
           <meshStandardMaterial color="rgb(182, 240, 140)" side={DoubleSide} />
         </mesh>
