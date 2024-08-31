@@ -133,6 +133,44 @@ export const JumpingCube = () => {
   );
 };
 
+export const ColliderEvents = () => {
+  const cubeRef = useRef<RapierRigidBody | null>(null);
+
+  const cubeJump = () => {
+    cubeRef.current?.applyImpulse({ x: 0, y: 60, z: 0 }, true);
+    cubeRef.current?.applyTorqueImpulse(
+      { x: Math.random() * 10, y: Math.random() * 10, z: Math.random() * 10 },
+      true
+    );
+  };
+
+  return (
+    <Physics>
+      {/* Box */}
+      <RigidBody
+        ref={cubeRef}
+        onCollisionEnter={() => console.log("Hit floor")}
+        onCollisionExit={() => console.log("Left floor")}
+        onSleep={() => console.log("Sleep")}
+        onWake={() => console.log("Wake")}
+      >
+        <mesh onClick={cubeJump} castShadow receiveShadow>
+          <boxGeometry args={[2, 2, 2]} />
+          <meshStandardMaterial color="red" />
+        </mesh>
+      </RigidBody>
+
+      {/* Floor */}
+      <RigidBody>
+        <mesh rotation-x={-Math.PI / 2} position-y={-3} receiveShadow>
+          <planeGeometry args={[100, 100]} />
+          <meshStandardMaterial color="rgb(182, 240, 140)" side={DoubleSide} />
+        </mesh>
+      </RigidBody>
+    </Physics>
+  );
+};
+
 export const ControlBall = () => {
   const model = useGLTF("./models/soccer_ball.glb");
 
