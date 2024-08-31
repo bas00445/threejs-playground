@@ -132,3 +132,23 @@ export const JumpingCube = () => {
     </Physics>
   );
 };
+
+export const ControlBall = () => {
+  const model = useGLTF("./models/soccer_ball.glb");
+
+  return (
+    <Physics>
+      <RigidBody colliders="hull" restitution={0.5}>
+        <primitive object={model.scene} scale={1.2} />
+      </RigidBody>
+
+      {/* Floor */}
+      <RigidBody>
+        <mesh rotation-x={-Math.PI / 2} position-y={-3} receiveShadow>
+          <planeGeometry args={[100, 100]} />
+          <meshStandardMaterial color="rgb(182, 240, 140)" side={DoubleSide} />
+        </mesh>
+      </RigidBody>
+    </Physics>
+  );
+};
