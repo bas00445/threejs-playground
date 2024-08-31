@@ -3,6 +3,7 @@ import {
   Environment,
   OrbitControls,
   Text3D,
+  useGLTF,
   useHelper,
 } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -67,6 +68,27 @@ export const CuboidCollider = () => {
           <torusGeometry args={[2, 1, 16]} />
           <meshStandardMaterial color="rgb(255, 207, 13)" />
         </mesh>
+      </RigidBody>
+
+      {/* Floor */}
+      <RigidBody>
+        <mesh rotation-x={-Math.PI / 2} position-y={-3}>
+          <planeGeometry args={[100, 100]} />
+          <meshStandardMaterial color="rgb(182, 240, 140)" side={DoubleSide} />
+        </mesh>
+      </RigidBody>
+    </Physics>
+  );
+};
+
+export const ColliderWithModel = () => {
+  const model = useGLTF("./models/hamburger.glb");
+
+  return (
+    <Physics debug>
+      {/* Model */}
+      <RigidBody colliders="hull">
+        <primitive object={model.scene} scale={0.7} />
       </RigidBody>
 
       {/* Floor */}
