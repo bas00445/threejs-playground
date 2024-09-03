@@ -1,13 +1,14 @@
 import {
   Center,
   Environment,
+  KeyboardControls,
   OrbitControls,
   Text3D,
   useGLTF,
   useHelper,
 } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Meta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 
 const meta = {
@@ -158,26 +159,6 @@ export const ColliderEvents = () => {
           <boxGeometry args={[2, 2, 2]} />
           <meshStandardMaterial color="red" />
         </mesh>
-      </RigidBody>
-
-      {/* Floor */}
-      <RigidBody>
-        <mesh rotation-x={-Math.PI / 2} position-y={-3} receiveShadow>
-          <planeGeometry args={[100, 100]} />
-          <meshStandardMaterial color="rgb(182, 240, 140)" side={DoubleSide} />
-        </mesh>
-      </RigidBody>
-    </Physics>
-  );
-};
-
-export const ControlBall = () => {
-  const model = useGLTF("./models/soccer_ball.glb");
-
-  return (
-    <Physics>
-      <RigidBody colliders="hull" restitution={0.5}>
-        <primitive object={model.scene} scale={1.2} />
       </RigidBody>
 
       {/* Floor */}
