@@ -12,7 +12,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Physics, RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { DoubleSide } from "three";
 
 const meta = {
@@ -78,20 +78,31 @@ export const ControlBall = () => {
       impulse.x += impulseStrength;
       torque.z -= torqueStrength;
     }
-    if (jump) {
-      impulse.y += 7;
-    }
+    // if (jump) {
+    //   impulse.y += 7;
+    // }
 
     ballRef.current?.applyImpulse(impulse);
     ballRef.current?.applyTorqueImpulse(torque);
   });
+
+  useEffect(() => {
+    subscribeKeys(
+      (state) => state.jump,
+      (value) => {
+        if (value) {
+          ballRef.current?.applyImpulse({ x: 0, y: 100, z: 0 });
+        }
+      }
+    );
+  }, []);
 
   return (
     <Physics>
       <RigidBody
         ref={ballRef}
         colliders="hull"
-        restitution={1} // make the ball bouncy
+        restitution={0.5} // make the ball bouncy
         linearDamping={0.5} // slow down movement of the ball
         angularDamping={0.5} // slow down rotation of the ball
         canSleep={false}
