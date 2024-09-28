@@ -187,8 +187,8 @@ export const Main = () => {
     smoothedCameraPosition.lerp(cameraPosition, 5 * delta);
     smoothedCameraTarget.lerp(cameraTarget, 5 * delta);
 
-    state.camera.position.copy(smoothedCameraPosition);
-    state.camera.lookAt(smoothedCameraTarget);
+    // state.camera.position.copy(smoothedCameraPosition);
+    // state.camera.lookAt(smoothedCameraTarget);
   });
 
   useEffect(() => {
@@ -241,6 +241,34 @@ export const Main = () => {
         width={LEVEL_WIDTH}
         depth={LEVEL_DEPTH}
       />
+
+      {/* Walls */}
+
+      {/* Left wall */}
+      <RigidBody
+        type="fixed"
+        colliders="cuboid"
+        position={[-LEVEL_WIDTH / 2, 0, -((LEVEL_WIDTH * 5) / 2) - 10]}
+        rotation-z={Math.PI / 2}
+      >
+        <mesh>
+          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 4]} />
+          <meshStandardMaterial color="gray" />
+        </mesh>
+      </RigidBody>
+
+      {/* Right wall */}
+      <RigidBody
+        type="fixed"
+        colliders="cuboid"
+        position={[LEVEL_WIDTH / 2, 0, -((LEVEL_WIDTH * 5) / 2) - 10]}
+        rotation-z={Math.PI / 2}
+      >
+        <mesh>
+          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 4]} />
+          <meshStandardMaterial color="gray" />
+        </mesh>
+      </RigidBody>
     </Physics>
   );
 };
