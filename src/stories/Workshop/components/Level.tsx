@@ -5,16 +5,18 @@ import { Color } from "three";
 
 type LevelProps = MeshProps & {
   color?: Color;
-  size?: number;
+  width?: number;
+  height?: number;
+  depth?: number;
 };
 
 const Level = (props: LevelProps) => {
-  const { size = 10 } = props;
+  const { width = 10, height = 0.5, depth = 20 } = props;
 
   return (
     <RigidBody type="fixed" colliders="cuboid">
       <mesh {...props}>
-        <boxGeometry args={[size, 0.5, size]} />
+        <boxGeometry args={[width, height, depth]} />
         <meshStandardMaterial color={props.color} />
       </mesh>
     </RigidBody>

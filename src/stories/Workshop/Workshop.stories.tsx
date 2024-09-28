@@ -48,7 +48,8 @@ const meta = {
 
 export default meta;
 
-const LEVEL_SIZE = 10;
+const LEVEL_WIDTH = 15;
+const LEVEL_DEPTH = 30;
 
 export const Main = () => {
   const model = useGLTF("./models/soccer_ball.glb");
@@ -143,22 +144,26 @@ export const Main = () => {
       <Level
         position={[0, 0, 0]}
         color={new Color("orange")}
-        size={LEVEL_SIZE}
+        width={LEVEL_WIDTH}
+        depth={LEVEL_DEPTH}
       />
       <Level
         color={new Color("green")}
-        position={[0, 0, -LEVEL_SIZE]}
-        size={LEVEL_SIZE}
+        position={[0, 0, -LEVEL_DEPTH]}
+        width={LEVEL_WIDTH}
+        depth={LEVEL_DEPTH}
       />
       <Level
         color={new Color("blue")}
-        position={[0, 0, -LEVEL_SIZE * 2]}
-        size={LEVEL_SIZE}
+        position={[0, 0, -LEVEL_DEPTH * 2]}
+        width={LEVEL_WIDTH}
+        depth={LEVEL_DEPTH}
       />
       <Level
         color={new Color("red")}
-        position={[0, 0, -LEVEL_SIZE * 3]}
-        size={LEVEL_SIZE}
+        position={[0, 0, -LEVEL_DEPTH * 3]}
+        width={LEVEL_WIDTH}
+        depth={LEVEL_DEPTH}
       />
     </Physics>
   );
