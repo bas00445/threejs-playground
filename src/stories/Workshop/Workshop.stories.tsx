@@ -187,8 +187,8 @@ export const Main = () => {
     smoothedCameraPosition.lerp(cameraPosition, 5 * delta);
     smoothedCameraTarget.lerp(cameraTarget, 5 * delta);
 
-    // state.camera.position.copy(smoothedCameraPosition);
-    // state.camera.lookAt(smoothedCameraTarget);
+    state.camera.position.copy(smoothedCameraPosition);
+    state.camera.lookAt(smoothedCameraTarget);
   });
 
   useEffect(() => {
@@ -209,8 +209,8 @@ export const Main = () => {
         ref={ballRef}
         colliders="ball"
         restitution={0.5} // make the ball bouncy
-        linearDamping={0.5} // slow down movement of the ball
-        angularDamping={0.5} // slow down rotation of the ball
+        linearDamping={0.2} // slow down movement of the ball
+        angularDamping={0.2} // slow down rotation of the ball
         canSleep={false}
       >
         <primitive object={model.scene} scale={1} />
@@ -241,6 +241,12 @@ export const Main = () => {
         width={LEVEL_WIDTH}
         depth={LEVEL_DEPTH}
       />
+      <Level
+        color={new Color("pink")}
+        position={[0, 0, -LEVEL_DEPTH * 4]}
+        width={LEVEL_WIDTH}
+        depth={LEVEL_DEPTH}
+      />
 
       {/* Walls */}
 
@@ -252,7 +258,7 @@ export const Main = () => {
         rotation-z={Math.PI / 2}
       >
         <mesh>
-          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 4]} />
+          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 5]} />
           <meshStandardMaterial color="gray" />
         </mesh>
       </RigidBody>
@@ -265,7 +271,7 @@ export const Main = () => {
         rotation-z={Math.PI / 2}
       >
         <mesh>
-          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 4]} />
+          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 5]} />
           <meshStandardMaterial color="gray" />
         </mesh>
       </RigidBody>
