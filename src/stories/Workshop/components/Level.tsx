@@ -1,9 +1,10 @@
-import { MeshProps } from "@react-three/fiber";
+import { MeshProps, Vector3 } from "@react-three/fiber";
 import { RigidBody } from "@react-three/rapier";
 import React from "react";
 import { Color } from "three";
 
-type LevelProps = MeshProps & {
+type LevelProps = {
+  position?: Vector3;
   color?: Color;
   width?: number;
   height?: number;
@@ -11,11 +12,11 @@ type LevelProps = MeshProps & {
 };
 
 const Level = (props: LevelProps) => {
-  const { width = 10, height = 0.5, depth = 20 } = props;
+  const { width = 10, position, height = 0.5, depth = 20 } = props;
 
   return (
-    <RigidBody type="fixed" colliders="cuboid">
-      <mesh {...props}>
+    <RigidBody type="fixed">
+      <mesh position={position}>
         <boxGeometry args={[width, height, depth]} />
         <meshStandardMaterial color={props.color} />
       </mesh>

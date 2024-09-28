@@ -48,6 +48,81 @@ const meta = {
 
 export default meta;
 
+export const ControlBall = () => {
+  const model = useGLTF("./models/soccer_ball.glb");
+  const ballRef = useRef<RapierRigidBody | null>(null);
+
+  //  Listen to keyboard input
+  const [subscribeKeys, getKeys] = useKeyboardControls();
+
+  useFrame((state, delta) => {
+    const { forward, backward, left, right, jump } = getKeys();
+
+    const impulse = { x: 0, y: 0, z: 0 };
+    const torque = { x: 0, y: 0, z: 0 };
+
+    const impulseStrength = 30 * delta; // to move object
+    const torqueStrength = 30 * delta; // to rotate object
+
+    if (forward) {
+      impulse.z -= impulseStrength;
+      torque.x -= torqueStrength;
+    }
+    if (backward) {
+      impulse.z += impulseStrength;
+      torque.x += torqueStrength;
+    }
+    if (left) {
+      impulse.x -= impulseStrength;
+      torque.z += torqueStrength;
+    }
+    if (right) {
+      impulse.x += impulseStrength;
+      torque.z -= torqueStrength;
+    }
+    // if (jump) {
+    //   impulse.y += 7;
+    // }
+
+    ballRef.current?.applyImpulse(impulse);
+    ballRef.current?.applyTorqueImpulse(torque);
+  });
+
+  useEffect(() => {
+    subscribeKeys(
+      (state) => state.jump,
+      (value) => {
+        if (value) {
+          ballRef.current?.applyImpulse({ x: 0, y: 100, z: 0 });
+        }
+      }
+    );
+  }, []);
+
+  return (
+    <Physics>
+      <RigidBody
+        ref={ballRef}
+        colliders="hull"
+        restitution={0.5} // make the ball bouncy
+        linearDamping={0.5} // slow down movement of the ball
+        angularDamping={0.5} // slow down rotation of the ball
+        canSleep={false}
+      >
+        <primitive object={model.scene} scale={1.2} />
+      </RigidBody>
+
+      {/* Floor */}
+      <RigidBody type="fixed">
+        <mesh rotation-x={-Math.PI / 2} position-y={-3} receiveShadow>
+          <planeGeometry args={[100, 100]} />
+          <meshStandardMaterial color="rgb(182, 240, 140)" side={DoubleSide} />
+        </mesh>
+      </RigidBody>
+    </Physics>
+  );
+};
+
 const LEVEL_WIDTH = 15;
 const LEVEL_DEPTH = 30;
 
@@ -69,8 +144,8 @@ export const Main = () => {
     const impulse = { x: 0, y: 0, z: 0 };
     const torque = { x: 0, y: 0, z: 0 };
 
-    const impulseStrength = 40 * delta; // to move object
-    const torqueStrength = 40 * delta; // to rotate object
+    const impulseStrength = 30 * delta; // to move object
+    const torqueStrength = 30 * delta; // to rotate object
 
     if (forward) {
       impulse.z -= impulseStrength;
@@ -100,20 +175,20 @@ export const Main = () => {
      */
     const ballPosition = ballRef.current?.translation();
 
-    // const cameraPosition = new Vector3();
-    // cameraPosition.copy(ballPosition);
-    // cameraPosition.z += 6;
-    // cameraPosition.y += 1.5;
+    const cameraPosition = new Vector3();
+    cameraPosition.copy(ballPosition);
+    cameraPosition.z += 6;
+    cameraPosition.y += 1.5;
 
-    // const cameraTarget = new Vector3();
-    // cameraTarget.copy(ballPosition);
-    // cameraTarget.y += 1;
+    const cameraTarget = new Vector3();
+    cameraTarget.copy(ballPosition);
+    cameraTarget.y += 1;
 
-    // smoothedCameraPosition.lerp(cameraPosition, 5 * delta);
-    // smoothedCameraTarget.lerp(cameraTarget, 5 * delta);
+    smoothedCameraPosition.lerp(cameraPosition, 5 * delta);
+    smoothedCameraTarget.lerp(cameraTarget, 5 * delta);
 
-    // state.camera.position.copy(smoothedCameraPosition);
-    // state.camera.lookAt(smoothedCameraTarget);
+    state.camera.position.copy(smoothedCameraPosition);
+    state.camera.lookAt(smoothedCameraTarget);
   });
 
   useEffect(() => {
@@ -121,15 +196,16 @@ export const Main = () => {
       (state) => state.jump,
       (value) => {
         if (value) {
-          ballRef.current?.applyImpulse({ x: 0, y: 50, z: 0 });
+          ballRef.current?.applyImpulse({ x: 0, y: 40, z: 0 });
         }
       }
     );
   }, []);
 
   return (
-    <Physics>
+    <Physics debug>
       <RigidBody
+        position={[0, 3, 0]} // make sure to add position to <RigidBody/> not <primitive/>
         ref={ballRef}
         colliders="ball"
         restitution={0.5} // make the ball bouncy
@@ -137,7 +213,7 @@ export const Main = () => {
         angularDamping={0.5} // slow down rotation of the ball
         canSleep={false}
       >
-        <primitive object={model.scene} scale={1} position={[0, 1.5, 0]} />
+        <primitive object={model.scene} scale={1} />
       </RigidBody>
 
       {/* Floor */}
