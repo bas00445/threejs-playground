@@ -3,6 +3,7 @@ import {
   Environment,
   KeyboardControls,
   OrbitControls,
+  Text,
   Text3D,
   useGLTF,
   useHelper,
@@ -275,6 +276,15 @@ export const Main = () => {
           <meshStandardMaterial color="gray" />
         </mesh>
       </RigidBody>
+
+      {/* Goal */}
+
+      <Center position-y={1.5} position-z={-LEVEL_DEPTH * 4}>
+        <Text3D size={2} font={"/fonts/helvetiker_regular.typeface.json"}>
+          Goal
+          <meshStandardMaterial color="green" />
+        </Text3D>
+      </Center>
     </Physics>
   );
 };
