@@ -7,7 +7,7 @@ import {
   useGLTF,
   useHelper,
 } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 
@@ -134,6 +134,35 @@ export const JumpingCube = () => {
   );
 };
 
+export const MoveRigidBody = () => {
+  const cubeRef = useRef<RapierRigidBody | null>(null);
+
+  useFrame((state) => {
+    if (cubeRef.current) {
+      // Moving the cube up and down
+      cubeRef.current.setNextKinematicTranslation({
+        x: 0,
+        y: Math.sin(state.clock.elapsedTime) * 2,
+        z: 0,
+      });
+    }
+  });
+
+  return (
+    <Physics>
+      <RigidBody ref={cubeRef} colliders="cuboid" type="kinematicPosition">
+        <mesh castShadow receiveShadow>
+          <boxGeometry args={[2, 2, 2]} />
+          <meshStandardMaterial color="red" />
+        </mesh>
+      </RigidBody>
+
+      {/* Floor */}
+      {/* ... */}
+    </Physics>
+  );
+};
+
 export const ColliderEvents = () => {
   const cubeRef = useRef<RapierRigidBody | null>(null);
 
@@ -146,7 +175,7 @@ export const ColliderEvents = () => {
   };
 
   return (
-    <Physics>
+    <Physics debug>
       {/* Box */}
       <RigidBody
         ref={cubeRef}
