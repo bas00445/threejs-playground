@@ -39,7 +39,7 @@ const meta = {
           <directionalLight intensity={10} position={[3, 2, 1]} castShadow />
           <OrbitControls makeDefault />
           <Environment preset="city" far={200} />
-          {/* <ControlBall /> */}
+          <ControlBall />
           <Story />
         </Canvas>
       </KeyboardControls>
@@ -188,8 +188,8 @@ export const Main = () => {
     smoothedCameraPosition.lerp(cameraPosition, 5 * delta);
     smoothedCameraTarget.lerp(cameraTarget, 5 * delta);
 
-    state.camera.position.copy(smoothedCameraPosition);
-    state.camera.lookAt(smoothedCameraTarget);
+    // state.camera.position.copy(smoothedCameraPosition);
+    // state.camera.lookAt(smoothedCameraTarget);
   });
 
   useEffect(() => {
