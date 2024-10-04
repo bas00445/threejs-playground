@@ -1,6 +1,6 @@
 import { MeshProps, useFrame } from "@react-three/fiber";
 import { RapierRigidBody, RigidBody } from "@react-three/rapier";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Color, Vector3 } from "three";
 
 type LevelProps = {
@@ -14,6 +14,8 @@ type LevelProps = {
 const Level = (props: LevelProps) => {
   const { width = 10, position, height = 0.5, depth = 20 } = props;
 
+  const [timeOffset] = useState(Math.random() * Math.PI * 2);
+
   const blockRef = useRef<RapierRigidBody | null>(null);
 
   useFrame((state, delta) => {
@@ -22,7 +24,7 @@ const Level = (props: LevelProps) => {
 
       blockRef.current?.setNextKinematicTranslation({
         x: position.x,
-        y: Math.sin(state.clock.elapsedTime) * 1.2 + 2,
+        y: Math.sin(state.clock.elapsedTime + timeOffset) * 1.2 + 2,
         z: position.z,
       });
     }
