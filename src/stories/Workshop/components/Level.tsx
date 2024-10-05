@@ -31,7 +31,7 @@ const Level = (props: LevelProps) => {
 
       blockRef.current?.setNextKinematicTranslation({
         x: position.x,
-        y: Math.sin(state.clock.elapsedTime + timeOffset) * 1.2 + 3,
+        y: Math.sin(state.clock.elapsedTime * 3 + timeOffset) * 1.2 + 3,
         z: position.z,
       });
     }
