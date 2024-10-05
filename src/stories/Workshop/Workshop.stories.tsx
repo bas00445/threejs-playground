@@ -125,7 +125,7 @@ export const ControlBall = () => {
 };
 
 const LEVEL_WIDTH = 15;
-const LEVEL_DEPTH = 30;
+const LEVEL_DEPTH = 20;
 
 export const Main = () => {
   const model = useGLTF("./models/soccer_ball.glb");
@@ -219,6 +219,7 @@ export const Main = () => {
 
       {/* Floor */}
       <Level
+        withObstacle={false}
         position={[0, 0, 0]}
         color={new Color("orange")}
         width={LEVEL_WIDTH}
@@ -246,6 +247,7 @@ export const Main = () => {
         color={new Color("pink")}
         position={[0, 0, -LEVEL_DEPTH * 4]}
         width={LEVEL_WIDTH}
+        withObstacle={false}
         depth={LEVEL_DEPTH}
       />
 

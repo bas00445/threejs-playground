@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import { Color, Vector3 } from "three";
 
 type LevelProps = {
+  withObstacle?: boolean;
   position?: Vector3;
   color?: Color;
   width?: number;
@@ -12,7 +13,13 @@ type LevelProps = {
 };
 
 const Level = (props: LevelProps) => {
-  const { width = 10, position, height = 0.5, depth = 20 } = props;
+  const {
+    width = 10,
+    position,
+    withObstacle = true,
+    height = 0.5,
+    depth = 20,
+  } = props;
 
   const [timeOffset] = useState(Math.random() * Math.PI * 2);
 
@@ -24,7 +31,7 @@ const Level = (props: LevelProps) => {
 
       blockRef.current?.setNextKinematicTranslation({
         x: position.x,
-        y: Math.sin(state.clock.elapsedTime + timeOffset) * 1.2 + 2,
+        y: Math.sin(state.clock.elapsedTime + timeOffset) * 1.2 + 3,
         z: position.z,
       });
     }
@@ -32,16 +39,18 @@ const Level = (props: LevelProps) => {
 
   return (
     <>
-      <RigidBody
-        type="kinematicPosition"
-        ref={blockRef}
-        position={[position[0], position[1] + 0.5, position[2]]}
-      >
-        <mesh>
-          <boxGeometry args={[width * 0.8, 0.5, 0.5]} />
-          <meshStandardMaterial color="red" />
-        </mesh>
-      </RigidBody>
+      {withObstacle && (
+        <RigidBody
+          type="kinematicPosition"
+          ref={blockRef}
+          position={[position[0], position[1] + 0.5, position[2]]}
+        >
+          <mesh>
+            <boxGeometry args={[width * 0.8, 2, 0.8]} />
+            <meshStandardMaterial color="red" />
+          </mesh>
+        </RigidBody>
+      )}
       <RigidBody type="fixed" position={position}>
         <mesh>
           <boxGeometry args={[width, height, depth]} />
