@@ -190,8 +190,8 @@ export const Main = () => {
     smoothedCameraPosition.lerp(cameraPosition, 5 * delta);
     smoothedCameraTarget.lerp(cameraTarget, 5 * delta);
 
-    // state.camera.position.copy(smoothedCameraPosition);
-    // state.camera.lookAt(smoothedCameraTarget);
+    state.camera.position.copy(smoothedCameraPosition);
+    state.camera.lookAt(smoothedCameraTarget);
   });
 
   useEffect(() => {
@@ -206,7 +206,7 @@ export const Main = () => {
   }, []);
 
   return (
-    <Physics debug>
+    <Physics>
       <RigidBody
         position={[0, 3, 0]} // make sure to add position to <RigidBody/> not <primitive/>
         ref={ballRef}
