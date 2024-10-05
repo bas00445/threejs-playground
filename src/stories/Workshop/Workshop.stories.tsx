@@ -129,7 +129,8 @@ const LEVEL_DEPTH = 20;
 const LEVEL_COUNT = 5;
 
 export const Main = () => {
-  const model = useGLTF("./models/soccer_ball.glb");
+  const ballModel = useGLTF("./models/soccer_ball.glb");
+  const moodengModel = useGLTF("./models/moodeng.glb");
   const ballRef = useRef<RapierRigidBody | null>(null);
   const floorRef = useRef<Mesh>(null);
 
@@ -215,7 +216,7 @@ export const Main = () => {
         angularDamping={0.2} // slow down rotation of the ball
         canSleep={false}
       >
-        <primitive object={model.scene} scale={1} />
+        <primitive object={ballModel.scene} scale={1} />
       </RigidBody>
 
       {/* Floor */}
@@ -267,12 +268,21 @@ export const Main = () => {
 
       {/* Goal */}
 
-      <Center position-y={1.5} position-z={-LEVEL_DEPTH * 4}>
-        <Text3D size={2} font={"/fonts/helvetiker_regular.typeface.json"}>
-          Goal
-          <meshStandardMaterial color="green" />
-        </Text3D>
-      </Center>
+      <group>
+        <Center position-y={1.5} position-z={-LEVEL_DEPTH * LEVEL_COUNT}>
+          <Text3D size={2} font={"/fonts/helvetiker_regular.typeface.json"}>
+            Goal
+            <meshStandardMaterial color="green" />
+          </Text3D>
+        </Center>
+        <primitive
+          position-y={1.5}
+          position-z={-LEVEL_DEPTH * LEVEL_COUNT}
+          object={moodengModel.scene}
+          scale={0.8}
+          position-x={-4}
+        />
+      </group>
     </Physics>
   );
 };
