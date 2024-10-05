@@ -126,6 +126,7 @@ export const ControlBall = () => {
 
 const LEVEL_WIDTH = 15;
 const LEVEL_DEPTH = 20;
+const LEVEL_COUNT = 5;
 
 export const Main = () => {
   const model = useGLTF("./models/soccer_ball.glb");
@@ -225,31 +226,16 @@ export const Main = () => {
         width={LEVEL_WIDTH}
         depth={LEVEL_DEPTH}
       />
-      <Level
-        color={new Color("green")}
-        position={[0, 0, -LEVEL_DEPTH]}
-        width={LEVEL_WIDTH}
-        depth={LEVEL_DEPTH}
-      />
-      <Level
-        color={new Color("blue")}
-        position={[0, 0, -LEVEL_DEPTH * 2]}
-        width={LEVEL_WIDTH}
-        depth={LEVEL_DEPTH}
-      />
-      <Level
-        color={new Color("red")}
-        position={[0, 0, -LEVEL_DEPTH * 3]}
-        width={LEVEL_WIDTH}
-        depth={LEVEL_DEPTH}
-      />
-      <Level
-        color={new Color("pink")}
-        position={[0, 0, -LEVEL_DEPTH * 4]}
-        width={LEVEL_WIDTH}
-        withObstacle={false}
-        depth={LEVEL_DEPTH}
-      />
+      {[...Array(LEVEL_COUNT)].map((_, i) => (
+        <Level
+          key={i}
+          color={new Color(["green", "blue", "red", "pink"][i])}
+          position={[0, 0, -LEVEL_DEPTH * (i + 1)]}
+          width={LEVEL_WIDTH}
+          depth={LEVEL_DEPTH}
+          withObstacle={i + 1 !== LEVEL_COUNT}
+        />
+      ))}
 
       {/* Walls */}
 
