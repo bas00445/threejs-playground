@@ -276,11 +276,11 @@ export const Main = () => {
           </Text3D>
         </Center>
         <primitive
-          position-y={1.5}
+          position-y={0}
           position-z={-LEVEL_DEPTH * LEVEL_COUNT}
           object={moodengModel.scene}
           scale={0.8}
-          position-x={-4}
+          position-x={-5}
         />
       </group>
     </Physics>
