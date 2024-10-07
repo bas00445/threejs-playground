@@ -60,14 +60,35 @@ export const InitialSetup = () => {
   );
 };
 
-export const CuboidCollider = () => {
+export const TypeOfColliders = () => {
   return (
     <Physics debug>
       {/* Box */}
-      <RigidBody colliders="trimesh">
-        <mesh rotation-x={-Math.PI / 2}>
+      <RigidBody colliders="cuboid">
+        <mesh rotation-x={-Math.PI / 2} position-x={-10}>
+          <torusGeometry args={[1, 1, 16]} />
+          <meshStandardMaterial color="green" />
+        </mesh>
+      </RigidBody>
+
+      <RigidBody colliders="ball">
+        <mesh rotation-x={-Math.PI / 2} position-x={-4}>
+          <sphereGeometry args={[1]} />
+          <meshStandardMaterial color="red" />
+        </mesh>
+      </RigidBody>
+
+      <RigidBody colliders="hull">
+        <mesh rotation-x={-Math.PI / 2} position-x={1.5}>
           <torusGeometry args={[2, 1, 16]} />
-          <meshStandardMaterial color="rgb(255, 207, 13)" />
+          <meshStandardMaterial color="gray" />
+        </mesh>
+      </RigidBody>
+
+      <RigidBody colliders="trimesh">
+        <mesh rotation-x={-Math.PI / 2} position-x={8}>
+          <torusGeometry args={[2, 1, 16]} />
+          <meshStandardMaterial color="orange" />
         </mesh>
       </RigidBody>
 
