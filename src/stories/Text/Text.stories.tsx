@@ -1,4 +1,10 @@
-import { Center, Environment, OrbitControls, Text3D } from "@react-three/drei";
+import {
+  Center,
+  Environment,
+  OrbitControls,
+  Text,
+  Text3D,
+} from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
@@ -25,6 +31,14 @@ const meta = {
 } satisfies Meta;
 
 export default meta;
+
+export const TextWith2D = () => {
+  return (
+    <Text fontSize={1.2} color="red">
+      Hello world
+    </Text>
+  );
+};
 
 export const TextWith3D = () => {
   return (
