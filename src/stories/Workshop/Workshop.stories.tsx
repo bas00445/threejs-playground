@@ -3,6 +3,7 @@ import {
   Environment,
   KeyboardControls,
   OrbitControls,
+  Text,
   Text3D,
   useGLTF,
   useHelper,
@@ -13,7 +14,8 @@ import { Physics, RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import { useEffect, useRef, useState } from "react";
-import { DoubleSide, Mesh, Vector3 } from "three";
+import { Color, DoubleSide, Mesh, Vector3 } from "three";
+import Level from "./components/Level";
 
 const meta = {
   title: "Workshop",
@@ -35,9 +37,9 @@ const meta = {
           }}
         >
           <directionalLight intensity={10} position={[3, 2, 1]} castShadow />
-          {/* <OrbitControls makeDefault /> */}
-          <Environment preset="city" />
-          {/* <ControlBall /> */}
+          <OrbitControls makeDefault />
+          <Environment preset="city" far={200} />
+          <ControlBall />
           <Story />
         </Canvas>
       </KeyboardControls>
@@ -122,8 +124,13 @@ export const ControlBall = () => {
   );
 };
 
-export const Camera = () => {
-  const model = useGLTF("./models/soccer_ball.glb");
+const LEVEL_WIDTH = 15;
+const LEVEL_DEPTH = 20;
+const LEVEL_COUNT = 5;
+
+export const Main = () => {
+  const ballModel = useGLTF("./models/soccer_ball.glb");
+  const moodengModel = useGLTF("./models/moodeng.glb");
   const ballRef = useRef<RapierRigidBody | null>(null);
   const floorRef = useRef<Mesh>(null);
 
@@ -192,7 +199,7 @@ export const Camera = () => {
       (state) => state.jump,
       (value) => {
         if (value) {
-          ballRef.current?.applyImpulse({ x: 0, y: 100, z: 0 });
+          ballRef.current?.applyImpulse({ x: 0, y: 40, z: 0 });
         }
       }
     );
@@ -201,28 +208,81 @@ export const Camera = () => {
   return (
     <Physics>
       <RigidBody
+        position={[0, 3, 0]} // make sure to add position to <RigidBody/> not <primitive/>
         ref={ballRef}
         colliders="ball"
         restitution={0.5} // make the ball bouncy
-        linearDamping={0.5} // slow down movement of the ball
-        angularDamping={0.5} // slow down rotation of the ball
+        linearDamping={0.2} // slow down movement of the ball
+        angularDamping={0.2} // slow down rotation of the ball
         canSleep={false}
       >
-        <primitive object={model.scene} scale={1.2} />
+        <primitive object={ballModel.scene} scale={1} />
       </RigidBody>
 
       {/* Floor */}
-      <RigidBody type="fixed">
-        <mesh
-          rotation-x={-Math.PI / 2}
-          position-y={-3}
-          receiveShadow
-          ref={floorRef}
-        >
-          <planeGeometry args={[100, 100]} />
-          <meshStandardMaterial color="rgb(182, 240, 140)" side={DoubleSide} />
+      <Level
+        withObstacle={false}
+        position={[0, 0, 0]}
+        color={new Color("orange")}
+        width={LEVEL_WIDTH}
+        depth={LEVEL_DEPTH}
+      />
+      {[...Array(LEVEL_COUNT)].map((_, i) => (
+        <Level
+          key={i}
+          color={new Color(["green", "blue", "red", "pink"][i])}
+          position={[0, 0, -LEVEL_DEPTH * (i + 1)]}
+          width={LEVEL_WIDTH}
+          depth={LEVEL_DEPTH}
+          withObstacle={i + 1 !== LEVEL_COUNT}
+        />
+      ))}
+
+      {/* Walls */}
+
+      {/* Left wall */}
+      <RigidBody
+        type="fixed"
+        colliders="cuboid"
+        position={[-LEVEL_WIDTH / 2, 0, -((LEVEL_WIDTH * 5) / 2) - 10]}
+        rotation-z={Math.PI / 2}
+      >
+        <mesh>
+          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 5]} />
+          <meshStandardMaterial color="gray" />
         </mesh>
       </RigidBody>
+
+      {/* Right wall */}
+      <RigidBody
+        type="fixed"
+        colliders="cuboid"
+        position={[LEVEL_WIDTH / 2, 0, -((LEVEL_WIDTH * 5) / 2) - 10]}
+        rotation-z={Math.PI / 2}
+      >
+        <mesh>
+          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 5]} />
+          <meshStandardMaterial color="gray" />
+        </mesh>
+      </RigidBody>
+
+      {/* Goal */}
+
+      <group>
+        <Center position-y={1.5} position-z={-LEVEL_DEPTH * LEVEL_COUNT}>
+          <Text3D size={2} font={"/fonts/helvetiker_regular.typeface.json"}>
+            Goal
+            <meshStandardMaterial color="green" />
+          </Text3D>
+        </Center>
+        <primitive
+          position-y={0}
+          position-z={-LEVEL_DEPTH * LEVEL_COUNT}
+          object={moodengModel.scene}
+          scale={0.8}
+          position-x={-5}
+        />
+      </group>
     </Physics>
   );
 };
