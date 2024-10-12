@@ -112,6 +112,13 @@ export const Main = () => {
 
     state.camera.position.copy(smoothedCameraPosition);
     state.camera.lookAt(smoothedCameraTarget);
+
+    // reset to start point
+    if (ballPosition.y < -3) {
+      ballRef.current?.setTranslation({ x: 0, y: 2, z: 0 }, true);
+      ballRef.current?.setLinvel({ x: 0, y: 0, z: 0 }, true);
+      ballRef.current?.setAngvel({ x: 0, y: 0, z: 0 }, true);
+    }
   });
 
   useEffect(() => {
