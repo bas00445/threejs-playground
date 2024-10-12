@@ -917,7 +917,56 @@ export const ResetBallPosition = () => {
 
   useFrame((state, delta) => {
     //  Controls
-    // ...
+    const { forward, backward, left, right } = getKeys();
+
+    const impulse = { x: 0, y: 0, z: 0 };
+    const torque = { x: 0, y: 0, z: 0 };
+
+    const impulseStrength = 30 * delta; // to move object
+    const torqueStrength = 30 * delta; // to rotate object
+
+    if (forward) {
+      impulse.z -= impulseStrength;
+      torque.x -= torqueStrength;
+    }
+    if (backward) {
+      impulse.z += impulseStrength;
+      torque.x += torqueStrength;
+    }
+    if (left) {
+      impulse.x -= impulseStrength;
+      torque.z += torqueStrength;
+    }
+    if (right) {
+      impulse.x += impulseStrength;
+      torque.z -= torqueStrength;
+    }
+    // if (jump) {
+    //   impulse.y += 7;
+    // }
+
+    ballRef.current?.applyImpulse(impulse);
+    ballRef.current?.applyTorqueImpulse(torque);
+
+    /**
+     * Camera
+     */
+    const ballPosition = ballRef.current?.translation();
+
+    const cameraPosition = new Vector3();
+    cameraPosition.copy(ballPosition);
+    cameraPosition.z += 6;
+    cameraPosition.y += 1.5;
+
+    const cameraTarget = new Vector3();
+    cameraTarget.copy(ballPosition);
+    cameraTarget.y += 1;
+
+    smoothedCameraPosition.lerp(cameraPosition, 5 * delta);
+    smoothedCameraTarget.lerp(cameraTarget, 5 * delta);
+
+    state.camera.position.copy(smoothedCameraPosition);
+    state.camera.lookAt(smoothedCameraTarget);
 
     // reset to start point
     if (ballPosition.y < -3) {
