@@ -14,7 +14,13 @@ import { Physics, RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import { useEffect, useRef, useState } from "react";
-import { Color, DoubleSide, Mesh, Vector3 } from "three";
+import {
+  Color,
+  DirectionalLightHelper,
+  DoubleSide,
+  Mesh,
+  Vector3,
+} from "three";
 import Level from "./components/Level";
 
 const meta = {
@@ -36,7 +42,7 @@ const meta = {
             position: [2, 2, 8],
           }}
         >
-          <directionalLight intensity={10} position={[3, 2, 1]} castShadow />
+          {/* <directionalLight intensity={10} position={[3, 2, 1]} castShadow /> */}
           <OrbitControls makeDefault />
           <Environment preset="city" far={200} />
           <Story />
@@ -137,7 +143,9 @@ export const Main = () => {
   const ballModel = useGLTF("./models/soccer_ball.glb");
   const moodengModel = useGLTF("./models/moodeng.glb");
   const ballRef = useRef<RapierRigidBody | null>(null);
-  const floorRef = useRef<Mesh>(null);
+  const lightRef = useRef<any>(null);
+
+  useHelper(lightRef, DirectionalLightHelper, 1);
 
   const [smoothedCameraPosition] = useState(() => new Vector3(10, 10, 10));
   const [smoothedCameraTarget] = useState(() => new Vector3());
@@ -216,40 +224,56 @@ export const Main = () => {
   }, []);
 
   return (
-    <Physics>
-      <RigidBody
-        position={[0, 3, 0]} // make sure to add position to <RigidBody/> not <primitive/>
-        ref={ballRef}
-        colliders="ball"
-        restitution={0.5} // make the ball bouncy
-        linearDamping={0.2} // slow down movement of the ball
-        angularDamping={0.2} // slow down rotation of the ball
-        canSleep={false}
-      >
-        <primitive object={ballModel.scene} scale={1} />
-      </RigidBody>
-
-      {/* Floor */}
-      <Level
-        withObstacle={false}
-        position={[0, 0, 0]}
-        color={new Color("orange")}
-        width={LEVEL_WIDTH}
-        depth={LEVEL_DEPTH}
+    <>
+      <directionalLight
+        ref={lightRef}
+        rotation-y={-Math.PI}
+        target={ballRef.current?.translation()}
+        intensity={5}
+        position={[10, 10, 10]}
+        // Increase area of casting shadow
+        shadow-mapSize={[2048, 2048]}
+        shadow-camera-top={200}
+        shadow-camera-right={200}
+        shadow-camera-bottm={-200}
+        shadow-camera-left={-200}
+        castShadow
       />
-      {[...Array(LEVEL_COUNT)].map((_, i) => (
+      <Physics>
+        {/* Player */}
+        <RigidBody
+          position={[0, 3, 0]} // make sure to add position to <RigidBody/> not <primitive/>
+          ref={ballRef}
+          colliders="ball"
+          restitution={0.5} // make the ball bouncy
+          linearDamping={0.2} // slow down movement of the ball
+          angularDamping={0.2} // slow down rotation of the ball
+          canSleep={false}
+        >
+          <primitive object={ballModel.scene} scale={1} />
+        </RigidBody>
+
+        {/* Floor */}
         <Level
-          key={i}
-          color={new Color(["green", "blue", "red", "pink"][i])}
-          position={[0, 0, -LEVEL_DEPTH * (i + 1)]}
+          withObstacle={false}
+          position={[0, 0, 0]}
+          color={new Color("orange")}
           width={LEVEL_WIDTH}
           depth={LEVEL_DEPTH}
-          withObstacle={i + 1 !== LEVEL_COUNT}
         />
-      ))}
+        {[...Array(LEVEL_COUNT)].map((_, i) => (
+          <Level
+            key={i}
+            color={new Color(["green", "blue", "red", "pink"][i])}
+            position={[0, 0, -LEVEL_DEPTH * (i + 1)]}
+            width={LEVEL_WIDTH}
+            depth={LEVEL_DEPTH}
+            withObstacle={i + 1 !== LEVEL_COUNT}
+          />
+        ))}
 
-      {/* Walls */}
-      {/* <RigidBody
+        {/* Walls */}
+        {/* <RigidBody
         type="fixed"
         colliders="cuboid"
         position={[-LEVEL_WIDTH / 2, 0, -((LEVEL_WIDTH * 5) / 2) - 10]}
@@ -273,31 +297,32 @@ export const Main = () => {
         </mesh>
       </RigidBody> */}
 
-      {/* Goal */}
+        {/* Goal */}
 
-      <group>
-        <Center
-          position-x={2.2}
-          position-y={1.5}
-          position-z={-LEVEL_DEPTH * LEVEL_COUNT}
-        >
-          <RigidBody>
-            <Text3D size={2} font={"/fonts/helvetiker_regular.typeface.json"}>
-              Goal
-              <meshStandardMaterial color="green" />
-            </Text3D>
+        <group>
+          <Center
+            position-x={2.2}
+            position-y={1.5}
+            position-z={-LEVEL_DEPTH * LEVEL_COUNT}
+          >
+            <RigidBody>
+              <Text3D size={2} font={"/fonts/helvetiker_regular.typeface.json"}>
+                Goal
+                <meshStandardMaterial color="green" />
+              </Text3D>
+            </RigidBody>
+          </Center>
+          <RigidBody
+            colliders="hull"
+            mass={0.05}
+            position-x={-2.8}
+            position-y={2.3}
+            position-z={-LEVEL_DEPTH * LEVEL_COUNT}
+          >
+            <primitive object={moodengModel.scene} scale={0.7} />
           </RigidBody>
-        </Center>
-        <RigidBody
-          colliders="hull"
-          mass={0.05}
-          position-x={-2.8}
-          position-y={2.3}
-          position-z={-LEVEL_DEPTH * LEVEL_COUNT}
-        >
-          <primitive object={moodengModel.scene} scale={0.7} />
-        </RigidBody>
-      </group>
-    </Physics>
+        </group>
+      </Physics>
+    </>
   );
 };
