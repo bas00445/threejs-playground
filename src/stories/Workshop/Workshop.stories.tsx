@@ -143,9 +143,6 @@ export const Main = () => {
   const ballModel = useGLTF("./models/soccer_ball.glb");
   const moodengModel = useGLTF("./models/moodeng.glb"); // "Moo Deng" (https://skfb.ly/prBvu) by CzernO is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
   const ballRef = useRef<RapierRigidBody | null>(null);
-  const lightRef = useRef<any>(null);
-
-  useHelper(lightRef, DirectionalLightHelper, 1);
 
   const [smoothedCameraPosition] = useState(() => new Vector3(10, 10, 10));
   const [smoothedCameraTarget] = useState(() => new Vector3());
@@ -235,7 +232,6 @@ export const Main = () => {
   return (
     <>
       <directionalLight
-        ref={lightRef}
         rotation-y={-Math.PI}
         target={ballRef.current?.translation()}
         intensity={5}
