@@ -206,6 +206,7 @@ export const Main = () => {
         if (value) {
           const ballY = ballRef.current?.translation().y ?? 0;
 
+          // Prevent double jump in the air
           if (ballY < 1.2) {
             ballRef.current?.applyImpulse({ x: 0, y: 40, z: 0 }, true);
           }
@@ -248,9 +249,7 @@ export const Main = () => {
       ))}
 
       {/* Walls */}
-
-      {/* Left wall */}
-      <RigidBody
+      {/* <RigidBody
         type="fixed"
         colliders="cuboid"
         position={[-LEVEL_WIDTH / 2, 0, -((LEVEL_WIDTH * 5) / 2) - 10]}
@@ -262,7 +261,6 @@ export const Main = () => {
         </mesh>
       </RigidBody>
 
-      {/* Right wall */}
       <RigidBody
         type="fixed"
         colliders="cuboid"
@@ -273,7 +271,7 @@ export const Main = () => {
           <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 5]} />
           <meshStandardMaterial color="gray" />
         </mesh>
-      </RigidBody>
+      </RigidBody> */}
 
       {/* Goal */}
 
