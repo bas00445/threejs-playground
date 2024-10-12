@@ -141,7 +141,7 @@ const LEVEL_COUNT = 5;
 
 export const Main = () => {
   const ballModel = useGLTF("./models/soccer_ball.glb");
-  const moodengModel = useGLTF("./models/moodeng.glb");
+  const moodengModel = useGLTF("./models/moodeng.glb"); // "Moo Deng" (https://skfb.ly/prBvu) by CzernO is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
   const ballRef = useRef<RapierRigidBody | null>(null);
   const lightRef = useRef<any>(null);
 
@@ -328,7 +328,7 @@ export const Main = () => {
             position-y={2.3}
             position-z={-LEVEL_DEPTH * LEVEL_COUNT}
           >
-            <primitive object={moodengModel.scene} scale={0.7} />
+            <primitive object={moodengModel.scene} scale={4} />
           </RigidBody>
         </group>
       </Physics>
