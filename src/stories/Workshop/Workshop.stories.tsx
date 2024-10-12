@@ -135,7 +135,7 @@ export const ControlBall = () => {
   );
 };
 
-const LEVEL_WIDTH = 15;
+const LEVEL_WIDTH = 20;
 const LEVEL_DEPTH = 20;
 const LEVEL_COUNT = 5;
 
@@ -328,6 +328,7 @@ export const Main = () => {
           <RigidBody
             colliders="hull"
             mass={0.05}
+            rotation-y={-Math.PI / 4}
             position-x={-2.8}
             position-y={2.3}
             position-z={-LEVEL_DEPTH * LEVEL_COUNT}

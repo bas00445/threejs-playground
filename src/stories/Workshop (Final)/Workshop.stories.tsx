@@ -246,6 +246,7 @@ export const Main = () => {
           </Center>
           <RigidBody
             colliders="hull"
+            rotation-y={-Math.PI / 4}
             mass={0.05}
             position-x={-2.8}
             position-y={2.3}
