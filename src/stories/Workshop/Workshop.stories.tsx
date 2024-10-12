@@ -142,7 +142,7 @@ export const Main = () => {
 
   useFrame((state, delta) => {
     //  Controls
-    const { forward, backward, left, right, jump } = getKeys();
+    const { forward, backward, left, right } = getKeys();
 
     const impulse = { x: 0, y: 0, z: 0 };
     const torque = { x: 0, y: 0, z: 0 };
@@ -199,7 +199,11 @@ export const Main = () => {
       (state) => state.jump,
       (value) => {
         if (value) {
-          ballRef.current?.applyImpulse({ x: 0, y: 40, z: 0 });
+          const ballY = ballRef.current?.translation().y;
+
+          if (ballY < 1.2) {
+            ballRef.current?.applyImpulse({ x: 0, y: 40, z: 0 });
+          }
         }
       }
     );
