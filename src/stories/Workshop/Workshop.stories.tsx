@@ -218,31 +218,29 @@ export const CameraPosition = () => {
       }
     );
   }, []);
-  // Enable shadow casting for 3d model
-  return (
-    <>
-      <Physics>
-        {/* Player */}
-        <RigidBody
-          position={[0, 3, 0]} // make sure to add position to <RigidBody/> not <primitive/>
-          ref={ballRef}
-          colliders="ball"
-          restitution={0.5} // make the ball bouncy
-          linearDamping={0.2} // slow down movement of the ball
-          angularDamping={0.2} // slow down rotation of the ball
-          canSleep={false}
-        >
-          <primitive object={ballModel.scene} scale={1} />
-        </RigidBody>
 
-        {/* Floor */}
-        <RigidBody type="fixed">
-          <mesh rotation-x={-Math.PI / 2} position-y={0} receiveShadow>
-            <planeGeometry args={[100, 100]} />
-            <meshStandardMaterial color="orange" side={DoubleSide} />s
-          </mesh>
-        </RigidBody>
-      </Physics>
-    </>
+  return (
+    <Physics>
+      {/* Player */}
+      <RigidBody
+        position={[0, 3, 0]} // make sure to add position to <RigidBody/> not <primitive/>
+        ref={ballRef}
+        colliders="ball"
+        restitution={0.5} // make the ball bouncy
+        linearDamping={0.2} // slow down movement of the ball
+        angularDamping={0.2} // slow down rotation of the ball
+        canSleep={false}
+      >
+        <primitive object={ballModel.scene} scale={1} />
+      </RigidBody>
+
+      {/* Floor */}
+      <RigidBody type="fixed">
+        <mesh rotation-x={-Math.PI / 2} position-y={0} receiveShadow>
+          <planeGeometry args={[100, 100]} />
+          <meshStandardMaterial color="orange" side={DoubleSide} />s
+        </mesh>
+      </RigidBody>
+    </Physics>
   );
 };
