@@ -204,33 +204,7 @@ export const Main = () => {
           />
         ))}
 
-        {/* Walls */}
-        {/* <RigidBody
-        type="fixed"
-        colliders="cuboid"
-        position={[-LEVEL_WIDTH / 2, 0, -((LEVEL_WIDTH * 5) / 2) - 10]}
-        rotation-z={Math.PI / 2}
-      >
-        <mesh>
-          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 5]} />w
-          <meshStandardMaterial color="gray" />
-        </mesh>a
-      </RigidBody>
-
-      <RigidBody
-        type="fixed"
-        colliders="cuboid"
-        position={[LEVEL_WIDTH / 2, 0, -((LEVEL_WIDTH * 5) / 2) - 10]}
-        rotation-z={Math.PI / 2}
-      >
-        <mesh>
-          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 5]} />
-          <meshStandardMaterial color="gray" />
-        </mesh>
-      </RigidBody> */}
-
         {/* Goal */}
-
         <group>
           <Center
             position-x={2.2}
