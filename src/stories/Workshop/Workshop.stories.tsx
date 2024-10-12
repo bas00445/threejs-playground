@@ -42,7 +42,7 @@ const meta = {
             position: [2, 2, 8],
           }}
         >
-          {/* <directionalLight intensity={10} position={[3, 2, 1]} castShadow /> */}
+          <directionalLight intensity={10} position={[3, 2, 1]} castShadow />
           <OrbitControls makeDefault />
           <Environment preset="city" far={200} />
           <Story />
@@ -128,7 +128,7 @@ export const ControlBall = () => {
       <RigidBody type="fixed">
         <mesh rotation-x={-Math.PI / 2} position-y={0} receiveShadow>
           <planeGeometry args={[100, 100]} />
-          <meshStandardMaterial color="rgb(182, 240, 140)" side={DoubleSide} />
+          <meshStandardMaterial color="orange" side={DoubleSide} />
         </mesh>
       </RigidBody>
     </Physics>
@@ -139,9 +139,8 @@ const LEVEL_WIDTH = 20;
 const LEVEL_DEPTH = 20;
 const LEVEL_COUNT = 5;
 
-export const Main = () => {
+export const CameraPosition = () => {
   const ballModel = useGLTF("./models/soccer_ball.glb");
-  const moodengModel = useGLTF("./models/moodeng.glb"); // "Moo Deng" (https://skfb.ly/prBvu) by CzernO is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
   const ballRef = useRef<RapierRigidBody | null>(null);
 
   const [smoothedCameraPosition] = useState(() => new Vector3(10, 10, 10));
@@ -219,39 +218,9 @@ export const Main = () => {
       }
     );
   }, []);
-
   // Enable shadow casting for 3d model
-  useEffect(() => {
-    ballModel.scene.traverse((children) => {
-      if (children instanceof Mesh) {
-        children.castShadow = true;
-      }
-    });
-  }, [ballModel.scene]);
-
-  useEffect(() => {
-    moodengModel.scene.traverse((children) => {
-      if (children instanceof Mesh) {
-        children.castShadow = true;
-      }
-    });
-  }, [moodengModel.scene]);
-
   return (
     <>
-      <directionalLight
-        rotation-y={-Math.PI}
-        target={ballRef.current?.translation()}
-        intensity={5}
-        position={[10, 10, 10]}
-        // Increase area of casting shadow
-        shadow-mapSize={[2048, 2048]}
-        shadow-camera-top={200}
-        shadow-camera-right={200}
-        shadow-camera-bottm={-200}
-        shadow-camera-left={-200}
-        castShadow
-      />
       <Physics>
         {/* Player */}
         <RigidBody
@@ -267,75 +236,12 @@ export const Main = () => {
         </RigidBody>
 
         {/* Floor */}
-        <Level
-          withObstacle={false}
-          position={[0, 0, 0]}
-          color={new Color("orange")}
-          width={LEVEL_WIDTH}
-          depth={LEVEL_DEPTH}
-        />
-        {[...Array(LEVEL_COUNT)].map((_, i) => (
-          <Level
-            key={i}
-            color={new Color(["green", "blue", "red", "pink"][i])}
-            position={[0, 0, -LEVEL_DEPTH * (i + 1)]}
-            width={LEVEL_WIDTH}
-            depth={LEVEL_DEPTH}
-            withObstacle={i + 1 !== LEVEL_COUNT}
-          />
-        ))}
-
-        {/* Walls */}
-        {/* <RigidBody
-        type="fixed"
-        colliders="cuboid"
-        position={[-LEVEL_WIDTH / 2, 0, -((LEVEL_WIDTH * 5) / 2) - 10]}
-        rotation-z={Math.PI / 2}
-      >
-        <mesh>
-          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 5]} />w
-          <meshStandardMaterial color="gray" />
-        </mesh>a
-      </RigidBody>
-
-      <RigidBody
-        type="fixed"
-        colliders="cuboid"
-        position={[LEVEL_WIDTH / 2, 0, -((LEVEL_WIDTH * 5) / 2) - 10]}
-        rotation-z={Math.PI / 2}
-      >
-        <mesh>
-          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 5]} />
-          <meshStandardMaterial color="gray" />
-        </mesh>
-      </RigidBody> */}
-
-        {/* Goal */}
-
-        <group>
-          <Center
-            position-x={2.2}
-            position-y={1.5}
-            position-z={-LEVEL_DEPTH * LEVEL_COUNT}
-          >
-            <RigidBody>
-              <Text3D size={2} font={"/fonts/helvetiker_regular.typeface.json"}>
-                Goal
-                <meshStandardMaterial color="green" />
-              </Text3D>
-            </RigidBody>
-          </Center>
-          <RigidBody
-            colliders="hull"
-            mass={0.05}
-            rotation-y={-Math.PI / 4}
-            position-x={-2.8}
-            position-y={2.3}
-            position-z={-LEVEL_DEPTH * LEVEL_COUNT}
-          >
-            <primitive object={moodengModel.scene} scale={4} />
-          </RigidBody>
-        </group>
+        <RigidBody type="fixed">
+          <mesh rotation-x={-Math.PI / 2} position-y={0} receiveShadow>
+            <planeGeometry args={[100, 100]} />
+            <meshStandardMaterial color="orange" side={DoubleSide} />s
+          </mesh>
+        </RigidBody>
       </Physics>
     </>
   );
