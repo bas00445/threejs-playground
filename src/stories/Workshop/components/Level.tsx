@@ -31,7 +31,7 @@ const Level = (props: LevelProps) => {
 
       blockRef.current?.setNextKinematicTranslation({
         x: position.x,
-        y: Math.sin(state.clock.elapsedTime * 3 + timeOffset) * 1.2 + 3,
+        y: Math.sin(state.clock.elapsedTime * 3 + timeOffset) * 1.5 + 2.5,
         z: position.z,
       });
     }
@@ -43,10 +43,10 @@ const Level = (props: LevelProps) => {
         <RigidBody
           type="kinematicPosition"
           ref={blockRef}
-          position={[position[0], position[1] + 0.5, position[2]]}
+          position={[position[0], position[1], position[2]]}
         >
           <mesh>
-            <boxGeometry args={[width * 0.8, 2, 0.8]} />
+            <boxGeometry args={[width * 0.8, 1, 0.8]} />
             <meshStandardMaterial color="red" />
           </mesh>
         </RigidBody>
