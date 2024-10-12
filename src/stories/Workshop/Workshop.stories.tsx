@@ -199,10 +199,10 @@ export const Main = () => {
       (state) => state.jump,
       (value) => {
         if (value) {
-          const ballY = ballRef.current?.translation().y;
+          const ballY = ballRef.current?.translation().y ?? 0;
 
           if (ballY < 1.2) {
-            ballRef.current?.applyImpulse({ x: 0, y: 40, z: 0 });
+            ballRef.current?.applyImpulse({ x: 0, y: 40, z: 0 }, true);
           }
         }
       }
