@@ -15,7 +15,6 @@ import { Color, DoubleSide, Mesh, Vector3 } from "three";
 import Level1 from "./components/Level_1";
 import Level2 from "./components/Level_2";
 import Level3 from "./components/Level_3";
-import Level4 from "./components/Level_4";
 
 const meta = {
   title: "Workshop",
@@ -857,7 +856,7 @@ export const WithShadow = () => {
         </RigidBody>
 
         {/* Floor */}
-        <Level4
+        <Level3
           withObstacle={false}
           position={[0, 0, 0]}
           color={new Color("orange")}
@@ -865,7 +864,7 @@ export const WithShadow = () => {
           depth={LEVEL_DEPTH}
         />
         {[...Array(LEVEL_COUNT)].map((_, i) => (
-          <Level4
+          <Level3
             key={i}
             color={new Color(["green", "blue", "red", "pink"][i])}
             position={[0, 0, -LEVEL_DEPTH * (i + 1)]}
