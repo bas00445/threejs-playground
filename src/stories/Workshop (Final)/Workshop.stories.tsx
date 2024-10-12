@@ -3,24 +3,15 @@ import {
   Environment,
   KeyboardControls,
   OrbitControls,
-  Text,
   Text3D,
   useGLTF,
-  useHelper,
   useKeyboardControls,
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Physics, RapierRigidBody, RigidBody } from "@react-three/rapier";
-import { Meta, StoryObj } from "@storybook/react";
-import { fn } from "@storybook/test";
+import { Meta } from "@storybook/react";
 import { useEffect, useRef, useState } from "react";
-import {
-  Color,
-  DirectionalLightHelper,
-  DoubleSide,
-  Mesh,
-  Vector3,
-} from "three";
+import { Color, Mesh, Vector3 } from "three";
 import Level from "./components/Level";
 
 const meta = {
