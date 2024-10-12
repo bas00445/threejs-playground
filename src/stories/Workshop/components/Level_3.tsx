@@ -1,6 +1,6 @@
-import { MeshProps, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { RapierRigidBody, RigidBody } from "@react-three/rapier";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Color, Vector3 } from "three";
 
 type LevelProps = {
@@ -15,8 +15,8 @@ type LevelProps = {
 const Level = (props: LevelProps) => {
   const {
     width = 10,
-    position,
     withObstacle = true,
+    position,
     height = 0.5,
     depth = 20,
   } = props;
@@ -50,8 +50,10 @@ const Level = (props: LevelProps) => {
           </mesh>
         </RigidBody>
       )}
+
+      {/* Floor */}
       <RigidBody type="fixed" position={position}>
-        <mesh receiveShadow castShadow>
+        <mesh>
           <boxGeometry args={[width, height, depth]} />
           <meshStandardMaterial color={props.color} />
         </mesh>
