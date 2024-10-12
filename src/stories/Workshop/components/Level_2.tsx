@@ -36,7 +36,7 @@ const Level = (props: LevelProps) => {
 
       {/* Floor */}
       <RigidBody type="fixed" position={position}>
-        <mesh>
+        <mesh castShadow receiveShadow>
           <boxGeometry args={[width, height, depth]} />
           <meshStandardMaterial color={props.color} />
         </mesh>
