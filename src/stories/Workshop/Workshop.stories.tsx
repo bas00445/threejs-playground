@@ -39,7 +39,6 @@ const meta = {
           <directionalLight intensity={10} position={[3, 2, 1]} castShadow />
           <OrbitControls makeDefault />
           <Environment preset="city" far={200} />
-          <ControlBall />
           <Story />
         </Canvas>
       </KeyboardControls>
@@ -57,7 +56,7 @@ export const ControlBall = () => {
   const [subscribeKeys, getKeys] = useKeyboardControls();
 
   useFrame((state, delta) => {
-    const { forward, backward, left, right, jump } = getKeys();
+    const { forward, backward, left, right } = getKeys();
 
     const impulse = { x: 0, y: 0, z: 0 };
     const torque = { x: 0, y: 0, z: 0 };
@@ -94,7 +93,12 @@ export const ControlBall = () => {
       (state) => state.jump,
       (value) => {
         if (value) {
-          ballRef.current?.applyImpulse({ x: 0, y: 100, z: 0 });
+          const ballY = ballRef.current?.translation().y ?? 0;
+
+          // Prevent double jump
+          if (ballY < 1.2) {
+            ballRef.current?.applyImpulse({ x: 0, y: 100, z: 0 }, true);
+          }
         }
       }
     );
@@ -103,6 +107,7 @@ export const ControlBall = () => {
   return (
     <Physics>
       <RigidBody
+        position-y={2}
         ref={ballRef}
         colliders="hull"
         restitution={0.5} // make the ball bouncy
@@ -115,7 +120,7 @@ export const ControlBall = () => {
 
       {/* Floor */}
       <RigidBody type="fixed">
-        <mesh rotation-x={-Math.PI / 2} position-y={-3} receiveShadow>
+        <mesh rotation-x={-Math.PI / 2} position-y={0} receiveShadow>
           <planeGeometry args={[100, 100]} />
           <meshStandardMaterial color="rgb(182, 240, 140)" side={DoubleSide} />
         </mesh>
