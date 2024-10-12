@@ -223,6 +223,15 @@ export const Main = () => {
     );
   }, []);
 
+  // Enable shadow casting for 3d model
+  useEffect(() => {
+    ballModel.scene.traverse((children) => {
+      if (children instanceof Mesh) {
+        children.castShadow = true;
+      }
+    });
+  }, [ballModel.scene]);
+
   return (
     <>
       <directionalLight
