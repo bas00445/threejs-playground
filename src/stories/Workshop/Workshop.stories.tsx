@@ -256,9 +256,9 @@ export const Main = () => {
         rotation-z={Math.PI / 2}
       >
         <mesh>
-          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 5]} />
+          <boxGeometry args={[LEVEL_WIDTH / 2, 0.5, LEVEL_DEPTH * 5]} />w
           <meshStandardMaterial color="gray" />
-        </mesh>
+        </mesh>a
       </RigidBody>
 
       <RigidBody
@@ -276,19 +276,27 @@ export const Main = () => {
       {/* Goal */}
 
       <group>
-        <Center position-y={1.5} position-z={-LEVEL_DEPTH * LEVEL_COUNT}>
-          <Text3D size={2} font={"/fonts/helvetiker_regular.typeface.json"}>
-            Goal
-            <meshStandardMaterial color="green" />
-          </Text3D>
-        </Center>
-        <primitive
-          position-y={0}
+        <Center
+          position-x={2.2}
+          position-y={1.5}
           position-z={-LEVEL_DEPTH * LEVEL_COUNT}
-          object={moodengModel.scene}
-          scale={0.8}
-          position-x={-5}
-        />
+        >
+          <RigidBody>
+            <Text3D size={2} font={"/fonts/helvetiker_regular.typeface.json"}>
+              Goal
+              <meshStandardMaterial color="green" />
+            </Text3D>
+          </RigidBody>
+        </Center>
+        <RigidBody
+          colliders="hull"
+          mass={0.05}
+          position-x={-2.8}
+          position-y={2.3}
+          position-z={-LEVEL_DEPTH * LEVEL_COUNT}
+        >
+          <primitive object={moodengModel.scene} scale={0.7} />
+        </RigidBody>
       </group>
     </Physics>
   );
