@@ -28,7 +28,7 @@ const Level = (props: LevelProps) => {
           position={[position[0], position[1] + 0.7, position[2]]}
         >
           <mesh castShadow receiveShadow>
-            <boxGeometry args={[width * 0.8, 1, 0.8]} />
+            <boxGeometry args={[width, 1, 0.8]} />
             <meshStandardMaterial color="red" />
           </mesh>
         </RigidBody>
