@@ -229,6 +229,14 @@ export const Main = () => {
     });
   }, [ballModel.scene]);
 
+  useEffect(() => {
+    moodengModel.scene.traverse((children) => {
+      if (children instanceof Mesh) {
+        children.castShadow = true;
+      }
+    });
+  }, [moodengModel.scene]);
+
   return (
     <>
       <directionalLight
