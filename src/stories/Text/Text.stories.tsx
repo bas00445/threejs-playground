@@ -32,14 +32,6 @@ const meta = {
 
 export default meta;
 
-export const TextWith2D = () => {
-  return (
-    <Text fontSize={1.2} color="red">
-      Hello world
-    </Text>
-  );
-};
-
 export const TextWith3D = () => {
   return (
     <Text3D font={"/fonts/helvetiker_regular.typeface.json"}>
@@ -49,7 +41,7 @@ export const TextWith3D = () => {
   );
 };
 
-export const TextWithCenter = () => {
+export const Text3DWithCenter = () => {
   return (
     <>
       <ambientLight intensity={4} />
@@ -60,5 +52,13 @@ export const TextWithCenter = () => {
         </Text3D>
       </Center>
     </>
+  );
+};
+
+export const TextWith2D = () => {
+  return (
+    <Text fontSize={1.2} color="red">
+      Hello world
+    </Text>
   );
 };
