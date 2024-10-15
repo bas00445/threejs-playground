@@ -184,7 +184,7 @@ export const MoveRigidBody = () => {
   );
 };
 
-export const ColliderEvents = () => {
+export const RigidBodyEvents = () => {
   const cubeRef = useRef<RapierRigidBody | null>(null);
 
   const cubeJump = () => {
@@ -202,8 +202,6 @@ export const ColliderEvents = () => {
         ref={cubeRef}
         onCollisionEnter={() => console.log("Hit floor")}
         onCollisionExit={() => console.log("Left floor")}
-        onSleep={() => console.log("Sleep")}
-        onWake={() => console.log("Wake")}
       >
         <mesh onClick={cubeJump} castShadow receiveShadow>
           <boxGeometry args={[2, 2, 2]} />
