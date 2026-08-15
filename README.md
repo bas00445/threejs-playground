@@ -1,3 +1,5 @@
+
+
 This is repository in event **Javascript Bangkok 2.0.0** for topic
 
 **3D website is easy with "React Three Fiber"**
@@ -31,6 +33,8 @@ or
 
 npm run storybook
 ```
+
+Open [http://localhost:6006](http://localhost:6006) in your browser.
 
 ### Slide for presentation
 
